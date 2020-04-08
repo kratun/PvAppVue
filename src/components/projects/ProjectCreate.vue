@@ -91,7 +91,7 @@ export default {
           //   localStorage.setItem("token", idToken);
           //   localStorage.setItem("userId", localId);
           console.log(res);
-          this.$router.push("/");
+          this.$router.push("/projects");
         })
         .catch(err => {
           console.error(err);
