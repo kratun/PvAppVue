@@ -126,41 +126,41 @@ export default {
 
   methods: {
     onProjectEdit() {
-      // const payload = 
-      // {
-      //     title:this.project.title,
-      //     amount:this.project.amount,
-      //     imgUrl:this.project.imgUrl,
-      //     description:this.project.description
-      // };
-      // //   {
-      // //     projectId: {
-      // //         title:this.title,
-      // //       amount:this.amount,
-      // //       imgUrl:this.imgUrl,
-      // //       description:this.description
-      // //     //   title:this.project.title,
-      // //     //   amount:this.project.amount,
-      // //     //   imgUrl:this.project.imgUrl,
-      // //     //   description:this.project.description
-      // //     }
-      // //   };
+      const payload = 
+      {
+          title:this.project.title,
+          amount:this.project.amount,
+          imgUrl:this.project.imgUrl,
+          description:this.project.description
+      };
+      //   {
+      //     projectId: {
+      //         title:this.title,
+      //       amount:this.amount,
+      //       imgUrl:this.imgUrl,
+      //       description:this.description
+      //     //   title:this.project.title,
+      //     //   amount:this.project.amount,
+      //     //   imgUrl:this.project.imgUrl,
+      //     //   description:this.project.description
+      //     }
+      //   };
 
-      // console.log(payload);
-      // // Project Settings -> Web API key
-      // axiosDb
-      //   .put(`projects/${this.project.projectId}.json`, payload)
-      //   .then(res => {
-      //     //   const { idToken, localId } = res.data;
+      console.log(payload);
+      // Project Settings -> Web API key
+      axiosDb
+        .put(`projects/${this.project.projectId}.json`, payload)
+        .then(res => {
+          //   const { idToken, localId } = res.data;
 
-      //     //   localStorage.setItem("token", idToken);
-      //     //   localStorage.setItem("userId", localId);
-      //     console.log(res);
-      //     this.$router.push("/projects");
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //   });
+          //   localStorage.setItem("token", idToken);
+          //   localStorage.setItem("userId", localId);
+          console.log(res);
+          this.$router.push("/projects");
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 };

@@ -19,7 +19,7 @@ export default {
 <style>
 footer {
   margin-block-start: 5px;
-  /* position: fixed; */
+  position: fixed;
   /* top: 100px; */
   left: 0;
   bottom: 0;
