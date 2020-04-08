@@ -14,7 +14,7 @@
 
           <md-card-header>
             <div class="md-title">{{p.title}}</div>
-            <div class="md-subhead">Subtitle here</div>
+            <div class="md-subhead">{{p.projectId}}</div>
           </md-card-header>
 
           <md-card-content>{{p.descrition}}</md-card-content>
@@ -22,7 +22,8 @@
 
         <md-card-actions md-alignment="left">
           <md-button @click="details">Details</md-button>
-          <md-button @click="edit">Edit</md-button>
+          <md-button @click="edit(p.projectId)">Edit</md-button>
+          <md-button @click="deleteCard">Delete</md-button>
         </md-card-actions>
       </md-card>
     </div>
@@ -72,7 +73,10 @@ export default {
     details() {
       window.alert("Send a message...");
     },
-    edit() {
+    edit(projectId) {
+      this.$router.push('/projects/edit' + "/" + projectId)
+    },
+    deleteCard() {
       window.alert("Calling someone...");
     }
   }

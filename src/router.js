@@ -6,6 +6,7 @@ import SignIn from '@/components/auth/SignIn.vue';
 import SignUp from '@/components/auth/SignUp.vue';
 import ProjectList from '@/components/projects/ProjectList.vue'
 import ProjectCreate from '@/components/projects/ProjectCreate.vue'
+import ProjectEdit from '@/components/projects/ProjectEdit.vue'
 import GridList from '@/components/grids/GridList.vue'
 import NotFound from '@/components/shared/NotFound.vue'
 // import Test from '@/components/projects/Test.vue'
@@ -34,9 +35,12 @@ const routes = [
     { path: '/sign-in', component: SignIn, beforeEnter: authGuard },
     { path: '/sign-up', component: SignUp, beforeEnter: authGuard },
     { path: '/projects/create', component: ProjectCreate, beforeEnter: notAuthGuard },
+    { path: '/projects/edit/:id', component: ProjectEdit, beforeEnter: notAuthGuard },
     { path: '/projects', component: ProjectList, beforeEnter: notAuthGuard, children:[
-        { path: '/', component: ProjectList},
-        { path: '/create', component: ProjectCreate},
+        { path: '', component: ProjectList, beforeEnter: notAuthGuard },
+        { path: '/create', component: ProjectCreate, beforeEnter: notAuthGuard },
+        { path: '/edit/:id', component: ProjectEdit, beforeEnter: notAuthGuard },
+        
     ] },
     { path: '/grids', component: GridList, beforeEnter: notAuthGuard },
     // { path: '/test', component: Test, beforeEnter: notAuthGuard },

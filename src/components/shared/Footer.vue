@@ -1,6 +1,6 @@
 <template>
   <footer>
-      Kratun @ SoftUni {{getYear}}
+      Site design by Kratun @ {{getYear}}
   </footer>
 </template>
 

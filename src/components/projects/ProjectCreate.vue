@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import dbAxios from "@/axios-database";
+import axiosDb from "@/axios-database";
 
 export default {
   name: "ProjectCreate",
@@ -83,7 +83,7 @@ export default {
       };
       console.log(payload);
       // Project Settings -> Web API key
-      dbAxios
+      axiosDb
         .post("projects.json", payload)
         .then(res => {
           //   const { idToken, localId } = res.data;
