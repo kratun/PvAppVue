@@ -1,5 +1,8 @@
 <template>
   <div id="projectsCreate">
+    <div id="backToProjects">
+      <router-link id="backToProjectsLink" to="/projects" tag="md-button">Back</router-link>
+    </div>
     <form @submit.prevent="onProjectEdit">
       <fieldset>
         <h1>Edit project</h1>
@@ -232,4 +235,13 @@ p.error {
 input.error {
   border-left-color: #a8413f;
 }
+#backToProjects{
+  
+  padding-inline-start: 400px;
+}
+.md-button {
+      width: 150px;
+      border-radius: 2px;
+      background-color:  lightblue;
+    }
 </style>

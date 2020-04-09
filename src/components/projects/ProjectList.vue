@@ -3,7 +3,8 @@
     <!-- <template :v-if="projects"> -->
     <!-- <div v-for="p in projects" :key="p.projectId"> -->
     <div class="container left">
-      <md-button @click="create">+ Add project</md-button>
+      <router-link to="/projects/create" tag="md-button">+ Add project</router-link>
+      <!-- <md-button @click="create">+ Add project</md-button> -->
     </div>
     
     <div class="container">
@@ -49,11 +50,8 @@ export default {
       projects: []
     };
   },
-  beforeCreate() {
-    console.log("I am here");
+  async beforeCreate() {
     this.$emit("onAuth", localStorage.getItem("token") !== null);
-  },
-  async created() {
     await axiosDb
       .get(`projects.json`)
       .then(res => {
@@ -69,6 +67,22 @@ export default {
         console.error(err);
       });
   },
+  // async created() {
+  //   await axiosDb
+  //     .get(`projects.json`)
+  //     .then(res => {
+  //       const allProjectsRes = res.data;
+  //       for (const projectId in allProjectsRes) {
+  //         this.projects.push({
+  //           projectId,
+  //           ...allProjectsRes[projectId]
+  //         });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // },
 
   methods: {
     create() {
@@ -82,6 +96,9 @@ export default {
     },
     deleteCard() {
       window.alert("Calling someone...");
+    },
+    getCreateUrl(){
+      return "/projects/create";
     }
   }
 };
