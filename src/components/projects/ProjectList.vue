@@ -2,14 +2,16 @@
   <div>
     <!-- <template :v-if="projects"> -->
     <!-- <div v-for="p in projects" :key="p.projectId"> -->
-    <div class="container">
-
+    <div class="container left">
+      <md-button @click="create">+ Add project</md-button>
     </div>
+    
     <div class="container">
+      
       <md-card v-for="p in projects" :key="p.projectId">
         <md-card-area>
           <md-card-media>
-            <img :src="p.imgUrl" />
+            <img class="img-size" :src="p.imgUrl"/>
           </md-card-media>
 
           <md-card-header>
@@ -62,7 +64,6 @@ export default {
             ...allProjectsRes[projectId]
           });
         }
-        console.log(this.projects);
       })
       .catch(err => {
         console.error(err);
@@ -70,6 +71,9 @@ export default {
   },
 
   methods: {
+    create() {
+      this.$router.push('/projects/create')
+    },
     details() {
       window.alert("Send a message...");
     },
@@ -88,6 +92,14 @@ export default {
   display: block;
   margin-inline-start: 185px;
   width: 75%;
+}
+.left{
+  display: block;
+  
+}
+.img-size{
+  height: 180px;
+  width: 480px;
 }
 .card-expansion {
   height: 480px;

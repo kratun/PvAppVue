@@ -116,12 +116,10 @@ export default {
             this.project = { projectId, ...projectsRes[projectId] };
           }
         }
-        console.log(projectsRes);
       })
       .catch(err => {
         console.error(err);
       });
-    console.log(this.project);
   },
 
   methods: {
@@ -133,29 +131,12 @@ export default {
           imgUrl:this.project.imgUrl,
           description:this.project.description
       };
-      //   {
-      //     projectId: {
-      //         title:this.title,
-      //       amount:this.amount,
-      //       imgUrl:this.imgUrl,
-      //       description:this.description
-      //     //   title:this.project.title,
-      //     //   amount:this.project.amount,
-      //     //   imgUrl:this.project.imgUrl,
-      //     //   description:this.project.description
-      //     }
-      //   };
-
-      console.log(payload);
-      // Project Settings -> Web API key
+     
+      const id = this.$route.params.id;
+      // TODO: If Id is null
       axiosDb
-        .put(`projects/${this.project.projectId}.json`, payload)
-        .then(res => {
-          //   const { idToken, localId } = res.data;
-
-          //   localStorage.setItem("token", idToken);
-          //   localStorage.setItem("userId", localId);
-          console.log(res);
+        .put(`projects/${id}.json`, payload)
+        .then( ()=> {
           this.$router.push("/projects");
         })
         .catch(err => {

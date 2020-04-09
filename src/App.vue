@@ -1,5 +1,7 @@
 <template>
+
   <div id="app">
+    
     <Header @onAuth="isAuth = $event" :isAuth="isAuth" />
       <router-view @onAuth="isAuth = $event" :isAuth="isAuth"></router-view>
     <Footer />

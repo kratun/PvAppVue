@@ -136,6 +136,7 @@ button {
   border-radius: 3px;
   padding: 0.8em 1.2em;
   width: 100%;
+  cursor: pointer;
 }
 
 i {

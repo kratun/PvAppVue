@@ -1,4 +1,5 @@
 <template>
+
   <footer>
       Site design by Kratun @ {{getYear}}
   </footer>
@@ -19,7 +20,7 @@ export default {
 <style>
 footer {
   margin-block-start: 5px;
-  position: fixed;
+  /* position:absolute; */
   /* top: 100px; */
   left: 0;
   bottom: 0;
