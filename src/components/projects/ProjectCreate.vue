@@ -87,7 +87,7 @@ export default {
         title: this.title,
         amount: this.amount,
         imgUrl: this.imgUrl,
-        description: this.description,
+        description: this.description
         //returnSecureToken: true
       };
       console.log(payload);
@@ -197,13 +197,12 @@ input.error {
   border-left-color: #a8413f;
 }
 
-#backToProjects{
-  
+#backToProjects {
   padding-inline-start: 400px;
 }
 .md-button {
-      width: 150px;
-      border-radius: 2px;
-      background-color:  lightblue;
-    }
+  width: 150px;
+  border-radius: 2px;
+  background-color: whitesmoke;
+}
 </style>

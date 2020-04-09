@@ -1,84 +1,82 @@
 <template>
   <div id="projectsCreate">
     <template v-if="isAuth && !isFetching">
-    <div id="backToProjects">
-      <router-link id="backToProjectsLink" to="/projects" tag="md-button">Back</router-link>
-    </div>
-    <form @submit.prevent="onProjectEdit">
-      <fieldset>
-        <h1>Edit project</h1>
-        <h1>{{project.projectId}}</h1>
-        <p class="field field-icon">
-          <label for="title">
-            <span>
-              <i class="fas fa-user"></i>
-            </span>
-          </label>
-          <input
-            v-model="project.title"
-            type="text"
-            name="title"
-            id="title"
-            placeholder="Project title"
-          />
-        </p>
+      <div id="backToProjects" class="button">
+        <router-link id="backToProjectsLink" to="/projects" tag="md-button">Back</router-link>
+      </div>
+      <form @submit.prevent="onProjectEdit">
+        <fieldset>
+          <h1>Edit project</h1>
+          <h1>{{project.projectId}}</h1>
+          <p class="field field-icon">
+            <label for="title">
+              <span>
+                <i class="fas fa-user"></i>
+              </span>
+            </label>
+            <input
+              v-model="project.title"
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Project title"
+            />
+          </p>
 
-        <p class="field field-icon">
-          <label for="amount">
-            <span>
-              <i class="fas fa-user"></i>
-            </span>
-          </label>
-          <input
-            v-model="project.amount"
-            type="number"
-            name="amount"
-            id="amount"
-            placeholder="Project amount"
-          />
-        </p>
+          <p class="field field-icon">
+            <label for="amount">
+              <span>
+                <i class="fas fa-user"></i>
+              </span>
+            </label>
+            <input
+              v-model="project.amount"
+              type="number"
+              name="amount"
+              id="amount"
+              placeholder="Project amount"
+            />
+          </p>
 
-        <p class="field field-icon">
-          <label for="imgUrl">
-            <span>
-              <i class="fas fa-user"></i>
-            </span>
-          </label>
-          <input
-            v-model="project.imgUrl"
-            type="text"
-            name="imgUrl"
-            id="imgUrl"
-            placeholder="Project image"
-          />
-        </p>
+          <p class="field field-icon">
+            <label for="imgUrl">
+              <span>
+                <i class="fas fa-user"></i>
+              </span>
+            </label>
+            <input
+              v-model="project.imgUrl"
+              type="text"
+              name="imgUrl"
+              id="imgUrl"
+              placeholder="Project image"
+            />
+          </p>
 
-        <p class="field field-icon">
-          <label for="description">
-            <span>
-              <i class="fas fa-user"></i>
-            </span>
-          </label>
-          <textarea
-            v-model="project.description"
-            name="description"
-            id="description"
-            placeholder="Project description"
-          ></textarea>
-        </p>
+          <p class="field field-icon">
+            <label for="description">
+              <span>
+                <i class="fas fa-user"></i>
+              </span>
+            </label>
+            <textarea
+              v-model="project.description"
+              name="description"
+              id="description"
+              placeholder="Project description"
+            ></textarea>
+          </p>
 
-        <p>
-          <button>Add Project</button>
-        </p>
-      </fieldset>
-    </form>
+          <p>
+            <button>Add Project</button>
+          </p>
+        </fieldset>
+      </form>
     </template>
     <template v-else-if="isAuth && isFetching">
-      
       <div>
         <Loading />
       </div>
-
     </template>
   </div>
 </template>
@@ -94,7 +92,7 @@ export default {
       required: true
     }
   },
-  components:{Loading},
+  components: { Loading },
   name: "ProjectEdit",
   data: function() {
     return {
@@ -106,11 +104,11 @@ export default {
         description: ""
       },
       isFetching: true
-    //   projectId: "",
-    //     title: "",
-    //     amount: "",
-    //     imgUrl: "",
-    //     description: ""
+      //   projectId: "",
+      //     title: "",
+      //     amount: "",
+      //     imgUrl: "",
+      //     description: ""
     };
   },
   beforeCreate() {
@@ -123,7 +121,6 @@ export default {
       .then(res => {
         const projectsRes = res.data;
         for (const projectId in projectsRes) {
-            
           if (id === projectId) {
             //       this.projectId = id;
             // //[this.title, this.amount, this.imgUrl, this.description] = [...projectsRes[projectId]];
@@ -143,19 +140,18 @@ export default {
 
   methods: {
     onProjectEdit() {
-      const payload = 
-      {
-          title:this.project.title,
-          amount:this.project.amount,
-          imgUrl:this.project.imgUrl,
-          description:this.project.description
+      const payload = {
+        title: this.project.title,
+        amount: this.project.amount,
+        imgUrl: this.project.imgUrl,
+        description: this.project.description
       };
-     
+
       const id = this.$route.params.id;
       // TODO: If Id is null
       axiosDb
         .put(`projects/${id}.json`, payload)
-        .then( ()=> {
+        .then(() => {
           this.$router.push("/projects");
         })
         .catch(err => {
@@ -251,13 +247,13 @@ p.error {
 input.error {
   border-left-color: #a8413f;
 }
-#backToProjects{
-  
+#backToProjects {
+  padding-top: 10px;
   padding-inline-start: 400px;
 }
 .md-button {
-      width: 150px;
-      border-radius: 2px;
-      background-color:  lightblue;
-    }
+  width: 150px;
+  border-radius: 2px;
+  background-color: whitesmoke;
+}
 </style>
