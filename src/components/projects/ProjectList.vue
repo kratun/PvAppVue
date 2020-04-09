@@ -1,18 +1,17 @@
 <template>
   <div>
-    <!-- <template :v-if="projects"> -->
+    <template v-if="isAuth && !isFetching">
     <!-- <div v-for="p in projects" :key="p.projectId"> -->
-    <div class="container left">
+    <div  class="container left">
       <router-link to="/projects/create" tag="md-button">+ Add project</router-link>
       <!-- <md-button @click="create">+ Add project</md-button> -->
     </div>
-    
+
     <div class="container">
-      
       <md-card v-for="p in projects" :key="p.projectId">
         <md-card-area>
           <md-card-media>
-            <img class="img-size" :src="p.imgUrl"/>
+            <img class="img-size" :src="p.imgUrl" />
           </md-card-media>
 
           <md-card-header>
@@ -33,21 +32,35 @@
 
     <!-- </div> -->
 
-    <!-- </template> -->
+    </template>
+    <template v-else-if="isAuth && isFetching">
+      
+      <div>
+        <Loading />
+      </div>
+
+    </template>
   </div>
+  
 </template>
 
 <script>
 import axiosDb from "@/axios-database";
+import Loading from "../shared/Loading";
 
 export default {
   props: {
-    isAuth: Boolean
+    isAuth: {
+      type: Boolean,
+      required: true
+    }
   },
+  components:{Loading},
   name: "ProjectList",
   data: function() {
     return {
-      projects: []
+      projects: [],
+      isFetching: true
     };
   },
   async beforeCreate() {
@@ -62,6 +75,7 @@ export default {
             ...allProjectsRes[projectId]
           });
         }
+        this.isFetching = false;
       })
       .catch(err => {
         console.error(err);
@@ -86,18 +100,18 @@ export default {
 
   methods: {
     create() {
-      this.$router.push('/projects/create')
+      this.$router.push("/projects/create");
     },
     details() {
       window.alert("Send a message...");
     },
     edit(projectId) {
-      this.$router.push('/projects/edit' + "/" + projectId)
+      this.$router.push("/projects/edit" + "/" + projectId);
     },
     deleteCard() {
       window.alert("Calling someone...");
     },
-    getCreateUrl(){
+    getCreateUrl() {
       return "/projects/create";
     }
   }
@@ -110,11 +124,10 @@ export default {
   margin-inline-start: 185px;
   width: 75%;
 }
-.left{
+.left {
   display: block;
-  
 }
-.img-size{
+.img-size {
   height: 180px;
   width: 480px;
 }

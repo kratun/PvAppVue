@@ -1,5 +1,6 @@
 <template>
   <div id="projectsCreate">
+    <template v-if="isAuth && !isFetching">
     <div id="backToProjects">
       <router-link id="backToProjectsLink" to="/projects" tag="md-button">Back</router-link>
     </div>
@@ -71,16 +72,29 @@
         </p>
       </fieldset>
     </form>
+    </template>
+    <template v-else-if="isAuth && isFetching">
+      
+      <div>
+        <Loading />
+      </div>
+
+    </template>
   </div>
 </template>
 
 <script>
 import axiosDb from "@/axios-database";
+import Loading from "../shared/Loading";
 
 export default {
   props: {
-    isAuth: Boolean
+    isAuth: {
+      type: Boolean,
+      required: true
+    }
   },
+  components:{Loading},
   name: "ProjectEdit",
   data: function() {
     return {
@@ -91,6 +105,7 @@ export default {
         imgUrl: "",
         description: ""
       },
+      isFetching: true
     //   projectId: "",
     //     title: "",
     //     amount: "",
@@ -119,6 +134,7 @@ export default {
             this.project = { projectId, ...projectsRes[projectId] };
           }
         }
+        this.isFetching = false;
       })
       .catch(err => {
         console.error(err);

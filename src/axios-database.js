@@ -7,10 +7,8 @@ const instance = axios.create({
 
 // Add token to every request
 instance.interceptors.request.use(config => {
-    console.log(config.url);
     config.url = `${config.url}?auth=${localStorage.getItem('token')}`;
-    console.log(config.url);
-    return config; 
+    return config;
 });
 
 export default instance;

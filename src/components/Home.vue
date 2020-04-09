@@ -31,7 +31,6 @@ export default {
     }
   },
   beforeCreate() {
-    console.log('I am here');
     this.$emit('onAuth', localStorage.getItem('token') !== null);
   },
   async created() {
@@ -43,7 +42,6 @@ export default {
           ...allProjectsRes[projectId]
         });
       }
-      console.log(this.projects);
     }).catch((err) => {
       console.error(err);
     });

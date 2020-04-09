@@ -66,6 +66,12 @@
 import axiosDb from "@/axios-database";
 
 export default {
+  props: {
+    isAuth: {
+      type: Boolean,
+      required: true
+    }
+  },
   name: "ProjectCreate",
   data: function() {
     return {
