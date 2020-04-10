@@ -1,5 +1,5 @@
 <template>
-  <div id="projectsCreate">
+  <div id="projectsEdit">
     <template v-if="isAuth && !isFetching">
       <div id="backToProjects" class="button">
         <router-link id="backToProjectsLink" to="/projects" tag="md-button">Back</router-link>
@@ -20,8 +20,20 @@
               name="title"
               id="title"
               placeholder="Project title"
+              @blur="$v.title.$touch"
+              :class="$v.title.$error? 'error':''"
             />
           </p>
+
+          <!-- if error -->
+          <template v-if="$v.title.$error">
+            <!-- <p v-if="!$v.title.required" class="error">Title is required!</p> -->
+            <p
+              v-if="!$v.title.minLength || !$v.title.maxLenght"
+              class="error"
+            >Title should be between 3 and 15 symbols!</p>
+          </template>
+        <!-- end if error -->
 
           <p class="field field-icon">
             <label for="amount">
@@ -35,6 +47,7 @@
               name="amount"
               id="amount"
               placeholder="Project amount"
+              min="1"
             />
           </p>
 
@@ -50,8 +63,15 @@
               name="imgUrl"
               id="imgUrl"
               placeholder="Project image"
+              @blur="$v.imgUrl.$touch"
+              :class="$v.imgUrl.$error? 'error':''"
             />
           </p>
+
+          <template v-if="$v.imgUrl.$error">
+          <!-- <p v-if="!$v.imgUrl.required" class="error">Image is required!</p> -->
+          <p v-if="!$v.imgUrl.imgUrl" class="error">Image Url should start with 'http:/'!</p>
+        </template>
 
           <p class="field field-icon">
             <label for="description">
@@ -60,15 +80,27 @@
               </span>
             </label>
             <textarea
+              class="textarea"
               v-model="project.description"
               name="description"
               id="description"
               placeholder="Project description"
+              @blur="$v.description.$touch"
+              :class="$v.description.$error? 'error':''"
             ></textarea>
           </p>
 
+          <!-- if error -->
+          <template v-if="$v.description.$error">
+            <p
+              v-if="!$v.description.minLength || !$v.description.maxLenght"
+              class="error"
+            >Description should be between 5 and 1500 symbols!</p>
+          </template>
+        <!-- end if error -->
+
           <p>
-            <button>Add Project</button>
+            <button :disabled="($v.$error)">Add Project</button>
           </p>
         </fieldset>
       </form>
@@ -83,9 +115,18 @@
 
 <script>
 import axiosDb from "@/axios-database";
+
+import { validationMixin } from "vuelidate";
+import { minLength, maxLength } from "vuelidate/lib/validators";
+import { helpers } from "vuelidate/lib/validators";
+
 import Loading from "../shared/Loading";
+const imgUrl = helpers.regex("imgUrl", /^https:\/+/);
+
+
 
 export default {
+  mixins: [validationMixin],
   props: {
     isAuth: {
       type: Boolean,
@@ -99,39 +140,47 @@ export default {
       project: {
         projectId: "",
         title: "",
-        amount: "",
+        amount: 0,
         imgUrl: "",
         description: ""
       },
       isFetching: true
-      //   projectId: "",
-      //     title: "",
-      //     amount: "",
-      //     imgUrl: "",
-      //     description: ""
+      
     };
+  },
+  validations: {
+    title: {
+      minLength: minLength(3),
+      maxLenght: maxLength(15)
+    },
+    imgUrl: {
+      imgUrl
+    },
+    description: {
+      minLength: minLength(5),
+      maxLenght: maxLength(1500)
+    }
   },
   beforeCreate() {
     this.$emit("onAuth", localStorage.getItem("token") !== null);
     const id = this.$route.params.id;
-    //const json = `projects.json?orderBy="$key"&startAt="${projectId}"&endAt=""&print=pretty`
-    console.log(id);
+    
     axiosDb
       .get(`projects.json`)
       .then(res => {
         const projectsRes = res.data;
+        //TODO refactor this
         for (const projectId in projectsRes) {
           if (id === projectId) {
-            //       this.projectId = id;
-            // //[this.title, this.amount, this.imgUrl, this.description] = [...projectsRes[projectId]];
-            // this.title = projectsRes[id].title;
-            // this.amount = projectsRes[id].amount;
-            // this.imgUrl = projectsRes[id].imgUrl;
-            // this.description = projectsRes[id].description;
+            console.log(projectsRes[projectId].amount+1)
+            projectsRes[projectId].amount = Number(projectsRes[projectId].amount);
+            console.log(projectsRes[projectId].amount+1)
             this.project = { projectId, ...projectsRes[projectId] };
+            this.$nextTick(() => { this.$v.$reset() })
           }
         }
         this.isFetching = false;
+        
       })
       .catch(err => {
         console.error(err);
@@ -140,9 +189,14 @@ export default {
 
   methods: {
     onProjectEdit() {
+      this.$v.$touch();
+      if (this.$v.$error) {
+        return;
+      }
+      console.log("EditForm was validated successfully!");
       const payload = {
         title: this.project.title,
-        amount: this.project.amount,
+        amount: Number(this.project.amount),
         imgUrl: this.project.imgUrl,
         description: this.project.description
       };
@@ -255,5 +309,9 @@ input.error {
   width: 150px;
   border-radius: 2px;
   background-color: whitesmoke;
+}
+.textarea {
+  width: 100%;
+  height: 100px;
 }
 </style>

@@ -53,7 +53,7 @@
         <!-- if error -->
         <template v-if="$v.amount.$error">
           <p v-if="!$v.amount.required" class="error">Amount is required!</p>
-          <p v-else-if="!$v.amount.amount" class="error">Amount should be number!</p>
+          <p v-else-if="!$v.amount.amount" class="error">Amount should be number greater than Zero!</p>
           <p v-else-if="!$v.amount.maxValue" class="error">Amount should be greater then ZERO!</p>
         </template>
         <!-- end if error -->
@@ -120,7 +120,7 @@ import axiosDb from "@/axios-database";
 import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
-const amount = helpers.regex("amount", /^[0-9]{1,9}$/);
+const amount = helpers.regex("amount", /^([0-9]*[.])?[0-9]+$/);
 const imgUrl = helpers.regex("imgUrl", /^https:\/+/);
 
 const greaterThanZero = value => value > 0;
@@ -137,7 +137,7 @@ export default {
   data: function() {
     return {
       title: "",
-      amount: "",
+      amount: Number,
       imgUrl: "",
       description: ""
     };
@@ -173,7 +173,7 @@ export default {
 
       const payload = {
         title: this.title,
-        amount: this.amount,
+        amount: Number(this.amount),
         imgUrl: this.imgUrl,
         description: this.description
         //returnSecureToken: true

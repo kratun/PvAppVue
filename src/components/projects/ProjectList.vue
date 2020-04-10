@@ -23,7 +23,7 @@
           </md-card-area>
 
           <md-card-actions md-alignment="left">
-            <md-button @click="details">Details</md-button>
+            <md-button @click="details(p.projectId)">Details</md-button>
             
             <template v-if="isAdmin" >
               <md-button @click="edit(p.projectId)">Edit</md-button>
@@ -92,8 +92,8 @@ export default {
     create() {
       this.$router.push("/projects/create");
     },
-    details() {
-      window.alert("Send a message...");
+    details(projectId) {
+      this.$router.push("/projects/detail" + "/" + projectId);
     },
     edit(projectId) {
       this.$router.push("/projects/edit" + "/" + projectId);
