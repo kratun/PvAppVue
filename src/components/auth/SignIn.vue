@@ -43,6 +43,7 @@
 
 <script>
 import authAxios from "@/axios-auth";
+import UserStore from '../../store/userStore/userStore'
 
 export default {
   name: "SignIn",
@@ -68,10 +69,10 @@ export default {
         )
         .then(res => {
           const { idToken, localId } = res.data;
-
+console.log(res.data);
           localStorage.setItem("token", idToken);
           localStorage.setItem("userId", localId);
-
+          UserStore.setUser(res.data);
           this.$router.push("/");
         })
         .catch(err => {

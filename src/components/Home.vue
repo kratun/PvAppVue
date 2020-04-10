@@ -1,8 +1,9 @@
 <template>
   <div id="home">
-      <div v-if="isAuth">
-        Hello to the Page (authenticated)
-        <div v-for="p in projects" :key="p.projectId">
+      <div>
+        Hello to the Page ({{isAuth}}) is admin {{isAdmin}}
+        <template v-if="isAuth && isAdmin">
+           <div  v-for="p in projects" :key="p.projectId">
           <p>
             {{p.title}}
           </p>
@@ -10,28 +11,39 @@
             <img :src="p.imgUrl"/>
           </div>
         </div>
+        </template>
+       
       </div>
-      <div v-else>
-        Hello to the Page (not authenticated)
-      </div>
+      
   </div>
 </template>
 
 <script>
 import axiosDb from '@/axios-database';
+import {ADMIN_KEY} from '../secrets/ApiSecret'
+
 
 export default {
   name: 'Home',
   props: {
-    isAuth: Boolean
+    isAuth: {
+      type: Boolean,
+      required: true
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true
+    },
   },
   data: function() {
     return {
-      projects: []
+      projects: [],
+      
     }
   },
   beforeCreate() {
     this.$emit('onAuth', localStorage.getItem('token') !== null);
+    this.$emit('onAdmin', localStorage.getItem('userId') === ADMIN_KEY);
   },
   async created() {
     await axiosDb.get(`projects.json`).then((res) => {
@@ -46,6 +58,9 @@ export default {
       console.error(err);
     });
   }
+  // computed:{
+    
+  // }
 }
 </script>
 

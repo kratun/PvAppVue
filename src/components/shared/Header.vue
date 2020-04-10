@@ -14,13 +14,14 @@
         <router-link to="/projects">Projects</router-link>
       </li>
       <li v-if="isAuth">
-        <a @click="onLogout" class="logout">Logout</a>
+        <a @click="onLogout" class="logout" type="submit">Logout</a>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import userStore from '@/store/userStore/userStore'
 export default {
   props: {
     isAuth: Boolean
@@ -30,8 +31,9 @@ export default {
     onLogout() {
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
-
+      userStore.clearUser();
       this.$emit('onAuth', false);
+      this.$router.push('/');
     }
   }
 };
