@@ -1,69 +1,45 @@
 <template>
   <div id="home">
-      <div>
-        Hello to the Page ({{isAuth}}) is admin {{isAdmin}}
-        <template v-if="isAuth && isAdmin">
-           <div  v-for="p in projects" :key="p.projectId">
-          <p>
-            {{p.title}}
-          </p>
-          <div>
-            <img :src="p.imgUrl"/>
-          </div>
-        </div>
-        </template>
-       
-      </div>
-      
+    
+    <div class="center">
+      <img
+        src="https://nencom.com/f/portfolio/houses/2019-04-varna/installation-trina-solar-modules-03.jpg"
+      />
+    </div>
+    <div >
+    <md-empty-state
+      md-label="PV is the future ..."
+      md-description="We will create your project and make you free."
+    >
+      <!-- <md-button class="md-primary md-raised">Create first project</md-button> -->
+    </md-empty-state>
+    </div>
   </div>
 </template>
 
 <script>
-import axiosDb from '@/axios-database';
+// import axiosDb from '@/axios-database';
 import {ADMIN_KEY} from '../secrets/ApiSecret'
 
-
 export default {
-  name: 'Home',
-  props: {
-    isAuth: {
-      type: Boolean,
-      required: true
-    },
-    isAdmin: {
-      type: Boolean,
-      required: true
-    },
-  },
-  data: function() {
-    return {
-      projects: [],
-      
-    }
-  },
+  name: "Home",
   beforeCreate() {
     this.$emit('onAuth', localStorage.getItem('token') !== null);
     this.$emit('onAdmin', localStorage.getItem('userId') === ADMIN_KEY);
   },
-  async created() {
-    await axiosDb.get(`projects.json`).then((res) => {
-      const allProjectsRes = res.data;
-      for (const projectId in allProjectsRes) {
-        this.projects.push({
-          projectId,
-          ...allProjectsRes[projectId]
-        });
-      }
-    }).catch((err) => {
-      console.error(err);
-    });
-  }
-  // computed:{
-    
-  // }
-}
+};
 </script>
 
-<style>
+<style scoped>
+.center{
+  margin-top: 10px;
+  
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 74%;
+  height: 406px;
+ 
+}
 
 </style>

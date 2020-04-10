@@ -4,24 +4,29 @@
       <li>
         <router-link to="/">Home</router-link>
       </li>
-      <li v-if="!isAuth">
-        <router-link to="/sign-in">Login</router-link>
-      </li>
-      <li v-if="!isAuth">
-        <router-link to="/sign-up">Sign Up</router-link>
-      </li>
       <li v-if="isAuth">
         <router-link to="/projects">Projects</router-link>
       </li>
-      <li v-if="isAuth">
-        <a @click="onLogout" class="logout" type="submit">Logout</a>
-      </li>
+      
+      
+      <span>
+        <li v-if="!isAuth" class="right">
+          <router-link to="/sign-up">Sign Up</router-link>
+        </li>
+        <li v-if="!isAuth" class="right">
+          <router-link to="/sign-in">Login</router-link>
+        </li>
+
+        <li v-if="isAuth" class="right">
+          <a @click="onLogout" class="logout" type="submit">Logout</a>
+        </li>
+      </span>
     </ul>
   </nav>
 </template>
 
 <script>
-import userStore from '@/store/userStore/userStore'
+import userStore from "@/store/userStore/userStore";
 export default {
   props: {
     isAuth: Boolean
@@ -29,11 +34,11 @@ export default {
   name: "Header",
   methods: {
     onLogout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
       userStore.clearUser();
-      this.$emit('onAuth', false);
-      this.$router.push('/');
+      this.$emit("onAuth", false);
+      this.$router.push("/");
     }
   }
 };
@@ -47,14 +52,21 @@ ul {
   overflow: hidden;
   background-color: rgb(10, 63, 207);
 }
+.whiteColor{
+  color:white;
+}
+.right{
+  float:right;
+  
 
+}
 li {
-  float: left;
+  float:left;
 }
 
 li a {
   display: block;
-  color: white;
+  color:white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -66,6 +78,6 @@ li a:hover {
 }
 
 .logout {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>
