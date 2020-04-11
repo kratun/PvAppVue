@@ -1,15 +1,21 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Home from '@/components/Home.vue';
-import SignIn from '@/components/auth/SignIn.vue';
-import SignUp from '@/components/auth/SignUp.vue';
-import ProjectList from '@/components/projects/ProjectList.vue'
-import ProjectCreate from '@/components/projects/ProjectCreate.vue'
-import ProjectEdit from '@/components/projects/ProjectEdit.vue'
-import ProjectDetail from '@/components/projects/ProjectDetail.vue'
-import GridList from '@/components/grids/GridList.vue'
-import NotFound from '@/components/shared/NotFound.vue'
+const Home = () => import('@/components/Home.vue');
+const SignIn = () => import('@/components/auth/SignIn.vue');
+const SignUp = ()=> import ('@/components/auth/SignUp.vue');
+const ProjectList = ()=> import ('@/components/projects/ProjectList.vue');
+const ProjectCreate = ()=> import ('@/components/projects/ProjectCreate.vue');
+const ProjectEdit = ()=> import ('@/components/projects/ProjectEdit.vue');
+const ProjectDetail = ()=> import ('@/components/projects/ProjectDetail.vue');
+const GridList = ()=> import ('@/components/grids/GridList.vue');
+const NotFound = ()=> import ('@/components/shared/NotFound.vue');
+// import ProjectList from '@/components/projects/ProjectList.vue'
+// import ProjectCreate from '@/components/projects/ProjectCreate.vue'
+// import ProjectEdit from '@/components/projects/ProjectEdit.vue'
+// import ProjectDetail from '@/components/projects/ProjectDetail.vue'
+// import GridList from '@/components/grids/GridList.vue'
+// import NotFound from '@/components/shared/NotFound.vue'
 import {authGuard, notAuthGuard, adminGuard} from './guards/routerGuards'
 // import Test from '@/components/projects/Test.vue'
 

@@ -25,7 +25,7 @@ export default {
         .post("/accounts:signInWithPassword", payload)
         .then(res => {
           const { idToken, localId } = res.data;
-          console.log(res.data);
+         
           localStorage.setItem("token", idToken);
           localStorage.setItem("userId", localId);
           this.user = {
