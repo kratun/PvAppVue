@@ -14,8 +14,6 @@
                 <hr class="hrClass">
             </div>
              
-            
-            
             <div class="pClass">{{project.description}}</div>
             
         </div>

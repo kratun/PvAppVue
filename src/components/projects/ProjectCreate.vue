@@ -183,10 +183,7 @@ export default {
       axiosDb
         .post("projects.json", payload)
         .then(res => {
-          //   const { idToken, localId } = res.data;
 
-          //   localStorage.setItem("token", idToken);
-          //   localStorage.setItem("userId", localId);
           console.log(res);
           this.$router.push("/projects");
         })
@@ -257,16 +254,6 @@ a {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.tel {
-  padding-right: 20px;
-}
-
-.building {
-  flex: 1 1 100%;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
 }
 
 form .field {

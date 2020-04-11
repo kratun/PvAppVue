@@ -5,61 +5,27 @@
         <h1>Sign Up</h1>
 
         <p class="field field-icon">
-          <label for="username">
-            <span>
-              <i class="fas fa-user"></i>
-            </span>
-          </label>
-          <input
-            v-model="username"
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Mark Ulrich"
-          />
-        </p>
-
-        <!-- if error -->
-        <!-- <p class="error">
-        Full name field is invalid!
-        </p>-->
-        <!-- end if error -->
-
-        <p class="field field-icon">
           <label for="email">
             <span>
               <i class="fas fa-envelope"></i>
             </span>
           </label>
-          <input v-model="email" type="text" name="email" id="email" placeholder="marg@gmial.com" />
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="marg@gmial.com"
+            v-model="email"
+            @blur="$v.email.$touch"
+          />
         </p>
 
-        <p class="field field-icon">
-          <label for="tel">
-            <span>
-              <i class="fas fa-phone"></i>
-            </span>
-          </label>
-          <select name="tel" id="tel" class="tel">
-            <option value="1">+359</option>
-          </select>
-          <input type="text" name="tel" id="tel" placeholder="888 888" />
-        </p>
-
-        <p class="field field-icon">
-          <label for="building">
-            <span>
-              <i class="fas fa-building"></i>
-            </span>
-          </label>
-          <select name="building" id="building" class="building">
-            <option value="1">Designer</option>
-            <option value="2">Software Engineer</option>
-            <option value="3">Accountant</option>
-            <option value="4">Manager</option>
-            <option value="5">Other</option>
-          </select>
-        </p>
+        <!-- if error -->
+        <template v-if="$v.email.$error">
+          <p v-if="!$v.email.required" class="error">Email is required!</p>
+          <p v-else-if="!$v.email.email" class="error">Email is invalid!</p>
+        </template>
+        <!-- end if error -->
 
         <p class="field field-icon">
           <label for="password">
@@ -68,13 +34,25 @@
             </span>
           </label>
           <input
-            v-model="password"
             type="password"
             name="password"
             id="password"
             placeholder="******"
+            v-model="password"
+            @blur="$v.password.$touch"
           />
         </p>
+
+        <!-- if error -->
+        <template v-if="$v.password.$error">
+          <p v-if="!$v.password.required" class="error">Password is required!</p>
+          <p
+            v-else-if="!$v.password.minLength || !$v.password.maxLenght"
+            class="error"
+          >Password should be between 3 and 16 symbols!</p>
+          <p v-else-if="!$v.password.alphanumeric" class="error">Password should match [0-9A-Za-z]!</p>
+        </template>
+        <!-- end if error -->
 
         <p class="field field-icon">
           <label for="re-password">
@@ -83,14 +61,20 @@
             </span>
           </label>
           <input
-            v-model="rePassword"
             type="password"
             name="re-password"
             id="re-password"
             placeholder="******"
+            v-model="rePassword"
+            @blur="$v.rePassword.$touch"
           />
         </p>
 
+        <!-- if error -->
+        <template v-if="$v.rePassword.$error">
+          <p v-if="!$v.rePassword.sameAs" class="error">Repeat Password does not match password!</p>
+        </template>
+        <!-- end if error -->
         <p>
           <button>Create Account</button>
         </p>
@@ -105,9 +89,16 @@
 </template>
 
 <script>
-import authAxios from "@/axios-auth";
+// import authAxios from "@/axios-auth";
+import { validationMixin } from "vuelidate";
+import { required, minLength, maxLength, sameAs, email } from "vuelidate/lib/validators";
+import { helpers } from "vuelidate/lib/validators";
+import authMixin from '../../mixins/authMixin'
+
+const alphanumeric = helpers.regex('alphanumeric', /^[a-zA-Z0-9]*$/);
 
 export default {
+  mixins: [validationMixin, authMixin],
   name: "SignUp",
   data: function() {
     return {
@@ -116,6 +107,23 @@ export default {
       password: "",
       rePassword: ""
     };
+  },
+  validations: {
+    
+    email: {
+      required,
+      email
+    },
+  
+    password: {
+      required,
+      minLength: minLength(3),
+      maxLenght: maxLength(16),
+      alphanumeric
+    },
+    rePassword: {
+      sameAs: sameAs('password')
+    }
   },
   methods: {
     onSignUp() {
@@ -126,22 +134,23 @@ export default {
       };
 
       // Project Settings -> Web API key
-      authAxios
-        .post(
-          "/accounts:signUp",
-          payload
-        )
-        .then(res => {
-          const { idToken, localId } = res.data;
+      this.register(payload)
+      // authAxios
+      //   .post(
+      //     "/accounts:signUp",
+      //     payload
+      //   )
+      //   .then(res => {
+      //     const { idToken, localId } = res.data;
 
-          localStorage.setItem('token', idToken);
-          localStorage.setItem('userId', localId);
+      //     localStorage.setItem('token', idToken);
+      //     localStorage.setItem('userId', localId);
 
-          this.$router.push('/');
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      //     this.$router.push('/');
+      //   })
+      //   .catch(err => {
+      //     console.error(err);
+      //   });
     }
   }
 };

@@ -42,11 +42,12 @@
 </template>
 
 <script>
-import authAxios from "@/axios-auth";
-import UserStore from '../../store/userStore/userStore'
+import authMixin from '../../mixins/authMixin'
+
 
 export default {
   name: "SignIn",
+  mixins: [authMixin],
   data: function() {
     return {
       email: "",
@@ -62,22 +63,7 @@ export default {
       };
 
       // Project Settings -> Web API key
-      authAxios
-        .post(
-          '/accounts:signInWithPassword',
-          payload
-        )
-        .then(res => {
-          const { idToken, localId } = res.data;
-console.log(res.data);
-          localStorage.setItem("token", idToken);
-          localStorage.setItem("userId", localId);
-          UserStore.setUser(res.data);
-          this.$router.push("/");
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      this.login(payload);
     }
   }
 };
